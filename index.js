@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const puppeteer = require("puppeteer");
-if (process.env.NODE_ENV !== "production") require("dotenv").config({ path: "./.ENV" });
+require("dotenv").config({ path: "./.ENV" });
 
 const app = express();
 app.use(cors({ origin: true }));
@@ -18,7 +18,7 @@ app.get("/harks-list-search/:city/:text", async (req, res) => {
 		const searchCity = req.params.city;
 
 		if (searchCity.trim() !== "" || searchText.trim() !== "") {
-			const browser = await puppeteer.launch();
+			const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
 
 			const page = await browser.newPage();
 
